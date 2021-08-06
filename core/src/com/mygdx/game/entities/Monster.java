@@ -12,10 +12,13 @@ public class Monster implements Renderable {
             new Texture(Gdx.files.internal("heroes/monster_front.png"));
     private final static Texture TEXTURE_SIT =
             new Texture(Gdx.files.internal("heroes/monster_sit.png"));
+    private final static Texture TEXTURE_JUMP =
+            new Texture(Gdx.files.internal("heroes/monster_jump.png"));
     private Texture currentTexture = TEXTURE_FRONT;
     private final Rectangle boundingBox;
     private final int movementSpeed = 200;
     private boolean isSiting = false;
+    private float velocityY = 0;
 
     public Monster(Vector2 position) {
         boundingBox = new Rectangle();
@@ -27,7 +30,19 @@ public class Monster implements Renderable {
 
     @Override
     public void render(Batch batch, float timeDelta) {
+        if (boundingBox.y > 20 || velocityY > 0) {
+            velocityY -= 1;
+            boundingBox.y += velocityY;
+            currentTexture = TEXTURE_JUMP;
+        } else {
+            velocityY = 0;
+            boundingBox.y = 20;
+        }
         batch.draw(currentTexture, boundingBox.x, boundingBox.y);
+    }
+
+    public void jump() {
+        this.velocityY = 14;
     }
 
     public void moveLeft(float timeDelta) {

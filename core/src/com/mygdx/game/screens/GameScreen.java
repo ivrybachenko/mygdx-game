@@ -81,13 +81,18 @@ public class GameScreen implements Screen {
         if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
             monster.moveLeft(timeDelta);
         }
+        if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
+            monster.moveRight(timeDelta);
+        }
         if (Gdx.input.isKeyPressed(Input.Keys.DOWN)) {
             monster.setSiting(true);
         } else {
             monster.setSiting(false);
         }
-        if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
-            monster.moveRight(timeDelta);
+        if (Gdx.input.isKeyPressed(Input.Keys.SPACE)) {
+            if (monster.getBoundingBox().y == 20) {
+                monster.jump();
+            }
         }
         handleOutsideTheScreen();
     }
