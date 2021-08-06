@@ -14,6 +14,7 @@ public class LogoScreen extends ScreenAdapter {
     private final DropGame game;
     private final float timeout;
     private float timeElapsed = 0;
+    private boolean skipScreenKeyWasPressed = false;
 
     public LogoScreen(DropGame game, Texture backgroundTexture, long timeout) {
         this.game = game;
@@ -23,8 +24,11 @@ public class LogoScreen extends ScreenAdapter {
 
     @Override
     public void render(float delta) {
+        if (Gdx.input.isKeyPressed(Input.Keys.ANY_KEY)) {
+            skipScreenKeyWasPressed = true;
+        }
         timeElapsed += delta;
-        if (timeElapsed > 0.5f && screenShouldBeChanged()) {
+        if (screenShouldBeChanged()) {
             game.screenManager.pop();
         } else {
             drawBackgroundTexture();
@@ -32,7 +36,7 @@ public class LogoScreen extends ScreenAdapter {
     }
 
     private boolean screenShouldBeChanged() {
-        return timeElapsed >= timeout || Gdx.input.isKeyJustPressed(Input.Keys.ANY_KEY);
+        return timeElapsed >= timeout || (timeElapsed > 0.5f && skipScreenKeyWasPressed);
     }
 
     private void drawBackgroundTexture() {
