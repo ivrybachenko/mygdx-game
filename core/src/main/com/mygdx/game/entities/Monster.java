@@ -14,11 +14,12 @@ public class Monster implements Renderable {
             new Texture(Gdx.files.internal("heroes/monster_sit.png"));
     private final static Texture TEXTURE_JUMP =
             new Texture(Gdx.files.internal("heroes/monster_jump.png"));
+
     private Texture currentTexture = TEXTURE_FRONT;
     private final Rectangle boundingBox;
     private final int movementSpeed = 200;
     private boolean isSiting = false;
-    private float velocityY = 0;
+    private float   velocityY = 0;
 
     public Monster(Vector2 position) {
         boundingBox = new Rectangle();

@@ -1,6 +1,18 @@
-sourceCompatibility = 1.7
+sourceCompatibility = 1.11
 [compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
 
-sourceSets.main.java.srcDirs = [ "src/" ]
+sourceSets.main.java.srcDirs = [ "src/main" ]
+sourceSets.test.java.srcDirs = [ "src/test" ]
 
 eclipse.project.name = appName + "-core"
+
+test {
+    useJUnitPlatform()
+}
+
+dependencies {
+    testImplementation 'org.assertj:assertj-core:3.20.2'
+    // https://mvnrepository.com/artifact/org.junit.jupiter/junit-jupiter-api
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.2'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.7.2'
+}

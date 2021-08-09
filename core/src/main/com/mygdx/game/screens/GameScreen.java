@@ -15,8 +15,6 @@ import com.mygdx.game.DropGame;
 import com.mygdx.game.entities.Monster;
 import com.mygdx.game.entities.Spearman;
 
-import java.util.Iterator;
-
 public class GameScreen implements Screen {
 
     final DropGame game;
@@ -65,10 +63,10 @@ public class GameScreen implements Screen {
         }
 
         for (Spearman spearman : spearmen) {
-            if (spearman.getBoundingBox().x < monster.getBoundingBox().x + spearman.dx) {
+            if (spearman.getBoundingBox().x < monster.getBoundingBox().x + spearman.getTargetMonsterDistance()) {
                 spearman.moveRight(delta);
             }
-            if (spearman.getBoundingBox().x > monster.getBoundingBox().x + spearman.dx) {
+            if (spearman.getBoundingBox().x > monster.getBoundingBox().x + spearman.getTargetMonsterDistance()) {
                 spearman.moveLeft(delta);
             }
         }
