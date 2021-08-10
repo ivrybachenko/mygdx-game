@@ -27,6 +27,7 @@ public class GameScreen implements Screen {
     private SpriteBatch batch;
     private long lastSpearmanTime;
     private int score = 0;
+    private int spawnTimeout = 100000000;
 
     public GameScreen(final DropGame game) {
         this.game = game;
@@ -49,25 +50,47 @@ public class GameScreen implements Screen {
         batch.setProjectionMatrix(camera.combined);
         batch.begin();
         batch.draw(backgroundImage, 0, 0);
+        for (Spearman spearman : spearmen) {
+            if (spearman.isDead()) {
+                spearman.render(batch, delta);
+            }
+        }
         monster.render(batch, delta);
         game.font.draw(game.batch, "Score: " + score, 720, 460);
         for (Spearman spearman : spearmen) {
-            spearman.render(batch, delta);
+            if (!spearman.isDead()) {
+                spearman.render(batch, delta);
+            }
         }
         batch.end();
 
         handleKeyboardInput(delta);
 
-        if (TimeUtils.nanoTime() - lastSpearmanTime > 1000000000) {
+        if (TimeUtils.nanoTime() - lastSpearmanTime > spawnTimeout) {
             spawnSpearman();
         }
 
         for (Spearman spearman : spearmen) {
+            if (spearman.isDead()) {
+                continue;
+            }
             if (spearman.getBoundingBox().x < monster.getBoundingBox().x + spearman.getTargetMonsterDistance()) {
                 spearman.moveRight(delta);
             }
             if (spearman.getBoundingBox().x > monster.getBoundingBox().x + spearman.getTargetMonsterDistance()) {
                 spearman.moveLeft(delta);
+            }
+            if (monster.isHitLeft()) {
+                if (spearman.getBoundingBox().x < monster.getBoundingBox().x) {
+                    spearman.die();
+                    score++;
+                }
+            }
+            if (monster.isHitRight()) {
+                if (spearman.getBoundingBox().x > monster.getBoundingBox().x) {
+                    spearman.die();
+                    score++;
+                }
             }
         }
     }
@@ -84,13 +107,21 @@ public class GameScreen implements Screen {
         }
         if (game.controlsMapping.sitDown()) {
             monster.setSiting(true);
+            spawnTimeout = 10000000;
         } else {
             monster.setSiting(false);
+            spawnTimeout = 100000000;
         }
         if (game.controlsMapping.jump()) {
             if (monster.getBoundingBox().y == 20) {
                 monster.jump();
             }
+        }
+        if (game.controlsMapping.hitLeft()) {
+            monster.hitLeft();
+        }
+        if (game.controlsMapping.hitRight()) {
+            monster.hitRight();
         }
         handleOutsideTheScreen();
     }

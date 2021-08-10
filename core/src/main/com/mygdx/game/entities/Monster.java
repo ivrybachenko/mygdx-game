@@ -5,6 +5,8 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import com.mygdx.game.graphics.Animation;
+import com.mygdx.game.graphics.AnimationStack;
 
 public class Monster implements Renderable {
 
@@ -14,7 +16,12 @@ public class Monster implements Renderable {
             new Texture(Gdx.files.internal("heroes/monster_sit.png"));
     private final static Texture TEXTURE_JUMP =
             new Texture(Gdx.files.internal("heroes/monster_jump.png"));
+    private final static Texture TEXTURE_HIT_LEFT =
+            new Texture(Gdx.files.internal("heroes/monster_hit_left.png"));
+    private final static Texture TEXTURE_HIT_RIGHT =
+            new Texture(Gdx.files.internal("heroes/monster_hit_right.png"));
 
+    private AnimationStack animationStack = new AnimationStack();
     private Texture currentTexture = TEXTURE_FRONT;
     private final Rectangle boundingBox;
     private final int movementSpeed = 200;
@@ -31,10 +38,18 @@ public class Monster implements Renderable {
 
     @Override
     public void render(Batch batch, float timeDelta) {
+        if (!animationStack.isEmpty()) {
+            animationStack.commitTime(timeDelta);
+        }
+        if (!animationStack.isEmpty()) {
+            currentTexture = animationStack.getCurrentTexture();
+        }
         if (boundingBox.y > 20 || velocityY > 0) {
             velocityY -= 1;
             boundingBox.y += velocityY;
-            currentTexture = TEXTURE_JUMP;
+            if (animationStack.isEmpty()) {
+                currentTexture = TEXTURE_JUMP;
+            }
         } else {
             velocityY = 0;
             boundingBox.y = 20;
@@ -52,6 +67,32 @@ public class Monster implements Renderable {
 
     public void moveRight(float timeDelta) {
         getBoundingBox().x += movementSpeed * timeDelta;
+    }
+
+    public void hitLeft() {
+        if (animationStack.isEmpty()) {
+            animationStack.push(new Animation(TEXTURE_HIT_LEFT, 0.4f));
+        }
+    }
+
+    public void hitRight() {
+        if (animationStack.isEmpty()) {
+            animationStack.push(new Animation(TEXTURE_HIT_RIGHT, 0.4f));
+        }
+    }
+
+    public boolean isHitLeft() {
+        if (animationStack.isEmpty()) {
+            return false;
+        }
+        return animationStack.getCurrentTexture() == TEXTURE_HIT_LEFT;
+    }
+
+    public boolean isHitRight() {
+        if (animationStack.isEmpty()) {
+            return false;
+        }
+        return animationStack.getCurrentTexture() == TEXTURE_HIT_RIGHT;
     }
 
     public Rectangle getBoundingBox() {

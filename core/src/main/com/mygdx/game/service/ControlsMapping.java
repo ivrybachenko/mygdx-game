@@ -29,4 +29,12 @@ public class ControlsMapping {
                 Gdx.input.isKeyPressed(Input.Keys.UP) ||
                 Gdx.input.isKeyPressed(Input.Keys.W);
     }
+
+    public boolean hitLeft() {
+        return Gdx.input.isKeyPressed(Input.Keys.Q);
+    }
+
+    public boolean hitRight() {
+        return Gdx.input.isKeyPressed(Input.Keys.E);
+    }
 }
