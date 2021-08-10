@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.mygdx.game.DropGame;
+import com.mygdx.game.graphics.Resizer;
 
 public class LogoScreen extends ScreenAdapter {
 
@@ -44,20 +45,12 @@ public class LogoScreen extends ScreenAdapter {
     private void drawBackgroundTexture() {
         ScreenUtils.clear(0f, 0f, 0f, 1);
         game.batch.begin();
-        Rectangle texRect = fitTextureIntoTheScreen(800, 480);
+        Rectangle texRect = Resizer.fitTextureIntoRectangle(backgroundTexture, 800, 480);
         game.batch.draw(backgroundTexture, texRect.x, texRect.y, texRect.width, texRect.height);
         game.font.draw(game.batch, "Press any key to skip...", 20, 20);
         game.batch.end();
     }
 
-    private Rectangle fitTextureIntoTheScreen(int screenWidth, int screenHeight) {
-        double scaleFactor = Math.min((double) screenWidth / backgroundTexture.getWidth(),
-                (double) screenHeight / backgroundTexture.getHeight());
-        int width = (int) (backgroundTexture.getWidth() * scaleFactor);
-        int height = (int) (backgroundTexture.getHeight() * scaleFactor);
-        return new Rectangle((screenWidth - width) / 2, (screenHeight - height) / 2,
-                width, height);
-    }
 
     @Override
     public void dispose() {
