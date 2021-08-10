@@ -1,4 +1,4 @@
-package com.mygdx.game.generation;
+package com.mygdx.game.generation.primitive;
 
 public class StaticFloatSupplier implements FloatSupplier {
 

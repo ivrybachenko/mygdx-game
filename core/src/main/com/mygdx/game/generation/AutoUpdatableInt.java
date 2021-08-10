@@ -1,5 +1,8 @@
 package com.mygdx.game.generation;
 
+import com.mygdx.game.generation.primitive.FloatSupplier;
+import com.mygdx.game.generation.primitive.IntSupplier;
+
 public class AutoUpdatableInt {
 
     private final IntSupplier valueSupplier;

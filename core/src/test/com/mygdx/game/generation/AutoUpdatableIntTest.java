@@ -1,6 +1,8 @@
 package com.mygdx.game.generation;
 
 import com.badlogic.gdx.utils.Array;
+import com.mygdx.game.generation.primitive.SequenceIntSupplier;
+import com.mygdx.game.generation.primitive.StaticFloatSupplier;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;

@@ -5,7 +5,11 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
-import com.mygdx.game.generation.*;
+import com.mygdx.game.generation.AutoUpdatableInt;
+import com.mygdx.game.generation.primitive.FloatSupplier;
+import com.mygdx.game.generation.primitive.IntSupplier;
+import com.mygdx.game.generation.primitive.RandomFloatSupplier;
+import com.mygdx.game.generation.primitive.RandomIntSupplier;
 
 public class Spearman implements Renderable {
 
