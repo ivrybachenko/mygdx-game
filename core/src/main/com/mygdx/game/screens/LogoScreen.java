@@ -10,6 +10,7 @@ import com.mygdx.game.DropGame;
 
 public class LogoScreen extends ScreenAdapter {
 
+    private static final float MIN_TIME_BEFORE_SKIP = 0.5f;
     private final Texture backgroundTexture;
     private final DropGame game;
     private final float timeout;
@@ -36,7 +37,8 @@ public class LogoScreen extends ScreenAdapter {
     }
 
     private boolean screenShouldBeChanged() {
-        return timeElapsed >= timeout || (timeElapsed > 0.5f && skipScreenKeyWasPressed);
+        return timeElapsed >= timeout ||
+                (skipScreenKeyWasPressed && timeElapsed > MIN_TIME_BEFORE_SKIP);
     }
 
     private void drawBackgroundTexture() {
