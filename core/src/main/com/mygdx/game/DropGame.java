@@ -7,11 +7,13 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.mygdx.game.screens.LogoScreen;
 import com.mygdx.game.screens.MainMenuScreen;
+import com.mygdx.game.service.ControlsMapping;
 import com.mygdx.game.service.ScreenManager;
 
 public class DropGame extends Game {
 
     public ScreenManager screenManager;
+    public ControlsMapping controlsMapping;
     public SpriteBatch batch;
     public BitmapFont font;
 
@@ -19,6 +21,7 @@ public class DropGame extends Game {
         batch = new SpriteBatch();
         font = new BitmapFont();
 
+        controlsMapping = new ControlsMapping();
         screenManager = new ScreenManager(this);
         screenManager.push(new MainMenuScreen(this));
         screenManager.push(new LogoScreen(this,

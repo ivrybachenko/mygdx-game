@@ -73,21 +73,21 @@ public class GameScreen implements Screen {
     }
 
     private void handleKeyboardInput(float timeDelta) {
-        if (Gdx.input.isKeyPressed(Input.Keys.ESCAPE)) {
+        if (game.controlsMapping.cancel()) {
             game.screenManager.push(new MainMenuScreen(game));
         }
-        if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
+        if (game.controlsMapping.moveLeft()) {
             monster.moveLeft(timeDelta);
         }
-        if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
+        if (game.controlsMapping.moveRight()) {
             monster.moveRight(timeDelta);
         }
-        if (Gdx.input.isKeyPressed(Input.Keys.DOWN)) {
+        if (game.controlsMapping.sitDown()) {
             monster.setSiting(true);
         } else {
             monster.setSiting(false);
         }
-        if (Gdx.input.isKeyPressed(Input.Keys.SPACE)) {
+        if (game.controlsMapping.jump()) {
             if (monster.getBoundingBox().y == 20) {
                 monster.jump();
             }
