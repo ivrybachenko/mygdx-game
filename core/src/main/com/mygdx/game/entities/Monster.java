@@ -26,7 +26,8 @@ public class Monster implements Renderable {
     private final Rectangle boundingBox;
     private final int movementSpeed = 200;
     private boolean isSiting = false;
-    private float   velocityY = 0;
+    private float velocityY = 0;
+    private int life = 100;
 
     public Monster(Vector2 position) {
         boundingBox = new Rectangle();
@@ -81,6 +82,13 @@ public class Monster implements Renderable {
         }
     }
 
+    public void takeDamage() {
+        life--;
+        if (life < 0) {
+            life = 0;
+        }
+    }
+
     public boolean isHitLeft() {
         if (animationStack.isEmpty()) {
             return false;
@@ -106,5 +114,9 @@ public class Monster implements Renderable {
         } else {
             currentTexture = TEXTURE_FRONT;
         }
+    }
+
+    public int getLife() {
+        return life;
     }
 }

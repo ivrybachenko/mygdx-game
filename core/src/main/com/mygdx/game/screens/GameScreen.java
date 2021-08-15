@@ -57,6 +57,7 @@ public class GameScreen implements Screen {
         }
         monster.render(batch, delta);
         game.font.draw(game.batch, "Score: " + score, 720, 460);
+        game.font.draw(game.batch, "Life: " + monster.getLife(), 720, 440);
         for (Spearman spearman : spearmen) {
             if (!spearman.isDead()) {
                 spearman.render(batch, delta);
@@ -92,12 +93,22 @@ public class GameScreen implements Screen {
                     score++;
                 }
             }
+            if (spearman.getBoundingBox().overlaps(monster.getBoundingBox())) {
+                monster.takeDamage();
+            }
         }
+        if (monster.getLife() == 0) {
+            goMainMenu();
+        }
+    }
+
+    private void goMainMenu() {
+        game.screenManager.push(new MainMenuScreen(game));
     }
 
     private void handleKeyboardInput(float timeDelta) {
         if (game.controlsMapping.cancel()) {
-            game.screenManager.push(new MainMenuScreen(game));
+            goMainMenu();
         }
         if (game.controlsMapping.moveLeft()) {
             monster.moveLeft(timeDelta);
