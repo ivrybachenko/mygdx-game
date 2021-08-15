@@ -28,6 +28,8 @@ public class Monster implements Renderable {
     private boolean isSiting = false;
     private float velocityY = 0;
     private int life = 100;
+    private float hitTimeout = 0;
+    private final float ATTACK_RESET_TIME = 0.5f;
 
     public Monster(Vector2 position) {
         boundingBox = new Rectangle();
@@ -44,6 +46,8 @@ public class Monster implements Renderable {
         }
         if (!animationStack.isEmpty()) {
             currentTexture = animationStack.getCurrentTexture();
+        } else {
+            hitTimeout -= timeDelta;
         }
         if (boundingBox.y > 20 || velocityY > 0) {
             velocityY -= 1;
@@ -71,15 +75,21 @@ public class Monster implements Renderable {
     }
 
     public void hitLeft() {
-        if (animationStack.isEmpty()) {
+        if (canHit()) {
             animationStack.push(new Animation(TEXTURE_HIT_LEFT, 0.4f));
+            hitTimeout = ATTACK_RESET_TIME;
         }
     }
 
     public void hitRight() {
-        if (animationStack.isEmpty()) {
+        if (canHit()) {
             animationStack.push(new Animation(TEXTURE_HIT_RIGHT, 0.4f));
+            hitTimeout = ATTACK_RESET_TIME;
         }
+    }
+
+    private boolean canHit() {
+        return animationStack.isEmpty() && hitTimeout <= 0;
     }
 
     public void takeDamage() {
